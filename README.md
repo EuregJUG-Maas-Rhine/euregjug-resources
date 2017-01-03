@@ -11,3 +11,4 @@ Resources of the EuregJUG Maas-Rhine
 - `poster-2016-09-14` — „Technische Schulden erkennen, beherrschen und reduzieren“ (Carola Lilienthal)
 - `poster-2016-11-22` — „HALLO, ICH BIN REDIS“ (Mark Paluch)
 - `poster-2016-12-06` — „IMMUTABLE INFRASTRUCTURE: RISE OF THE MACHINE IMAGES“ (Axel Fontaine)
+- `poster-2017-01-18` — „USING ACTORS FOR THE INTERNET OF (LEGO) TRAINS“ (Johan Janssen)
