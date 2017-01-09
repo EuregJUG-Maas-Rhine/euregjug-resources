@@ -20,18 +20,30 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+		<style>
+			.right { float: right; }
+			.center { text-align: center; }
+			header img { height: 110px; }
+			div.slides ul { list-style-type: none; }
+		  div.slides li { padding-bottom: 0.2em; padding-top: 0.2em; border-top: 1px solid black; }
+			div.slides li:first-child { border: 0; }
+			p.quote::before { content: "\201E"; }
+			p.quote::after { content: "\201C"; }
+
+		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
+						<header class="right"><img src="img/euregjug.png"></header>
 		                <section>
-					<h2>Vorschau</h2>
+					<h1>Preview</h1>
 					<ul>
 						<!-- Please, just uncomment past dates -->
 						<!-- <li><strong>9. Januar</strong> - Axel Fontaine (Boxfuse): Immutable Infrastructure: Rise of the Machine Images</li> -->
-						<li><strong>18. Januar</strong> - Johan Janssen: Using Actors for the Internet of (Lego) Trains</li>
-						<li><strong>8. Februar</strong> - Michael Plöd (InnoQ): (Noch offen)</li>
-						<li><strong>22. März</strong> - Stefan Tilkov (InnoQ): Wait, what? Our microservices have actual human users?</li>
+						<li><strong>January 18th — Osthus GmbH</strong><span class="right"><em>Johan Janssen</em></span><br/><p class="quote center">Using Actors for the Internet of (Lego) Trains</p></li>
+						<li><strong>February 8th</strong><span class="right"><em>Michael Plöd</em></span><br/><p class="center">(TBD - DDD related)</p></li>
+						<li><strong>March 22nd</strong><span class="right"><em>Stefan Tilkov</em></span><br/><p class="quote center">Wait, what? Our microservices have actual human users?</p></li>
 					</ul>
 				</section>
 			</div>
@@ -44,6 +56,7 @@
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				history: true,
+				width: 1000,
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
