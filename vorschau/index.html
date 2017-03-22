@@ -38,34 +38,65 @@
 						<header class="right"><img src="img/euregjug.png"></header>
 		                <section>
 					<h1>Preview</h1>
-					<ul>
-						<!-- Please, just uncomment past dates -->
-						<!-- <li><strong>9. Januar</strong> - Axel Fontaine (Boxfuse): Immutable Infrastructure: Rise of the Machine Images</li> -->
-						<!-- <li><strong>January 18th — Osthus GmbH</strong><span class="right"><em>Johan Janssen</em></span><br/><p class="quote center">Using Actors for the Internet of (Lego) Trains</p></li> -->
-						<!-- <li><strong>February 8th — Traveltainment GmbH</strong><span class="right"><em>Michael Plöd</em></span><br/><p class="quote center">Microservices &lt;3 Domain Driven Design, why and how?</p></li> -->
-						<li><strong>March 22nd - Inside</strong><span class="right"><em>Stefan Tilkov</em></span><br/><p class="quote center">Wait, what? Our microservices have actual human users?</p></li>
-						<li><strong>April 21st</strong><span class="right"><em>Mark Heckler</em></span><br/><p class="quote center">Going Reactive with Spring 5 &amp; Project Reactor</p></li>
-					</ul>
+					<ul id="event-list"></ul>
 				</section>
 			</div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script src="js/moment.js"></script>
+		<script src="js/jquery.min.js"></script>
+
+		<script id="event-template" type="text/x-handlebars-template">
+			<li>
+				<strong>{{formattedDay heldOn}} - {{firstLine location}}</strong>
+				<span class="right"><em>{{speaker}}</em></span><br/>
+				<p class="quote center">{{name}}</p>
+			</li>
+		</script>
+
 
 		<script>
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				history: true,
-				width: 1000,
+			var initSlide = function() {
+				Reveal.initialize({
+					history: true,
+					width: 1000,
+					dependencies: [
+						{ src: 'plugin/markdown/marked.js' },
+						{ src: 'plugin/markdown/markdown.js' },
+						{ src: 'plugin/notes/notes.js', async: true },
+						{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					]
+				});
+			};
 
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
+			Handlebars.registerHelper('firstLine', function(val) {
+				return val === undefined ? 'TBA' : val.split('\n')[0];
+			});
+			Handlebars.registerHelper('formattedDay', function(val) {
+				return moment(val).format('MMMM Do');
+			});
+
+			$( document ).ready(function() {
+				$.ajax({
+					url: 'http://www.euregjug.eu/api/events.json?sort=heldOn,asc',
+				})
+				.done(function(res) {
+					var now = moment();
+					var template = Handlebars.compile($("#event-template").html());
+					var eventsOpenForRegistration = $.grep(res.content, function(val, i) {
+						return val.openForRegistration && !moment(val.heldOn).isSame(now, 'day');
+					}).slice(0,3);
+					$("#event-list").append($.map(eventsOpenForRegistration, function(val) {
+						return template(val);
+					}));
+					initSlide();
+				})
+				.fail(function(err) {
+				 	console.log('Error: ' + err.status);
+				});
 			});
 		</script>
 	</body>
