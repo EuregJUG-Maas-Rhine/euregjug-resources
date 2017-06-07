@@ -60,6 +60,18 @@
 					<p>10% discount with <em>2017eurogioJUG</em> at<br />
 					https://www.topconf.com/conference/duesseldorf-2017/registration</p>
 				</section>
+				<section>
+					<h1>Highly sophisticated raffle</h1>
+					<pre>
+						<code class="sql">
+select first_name, name 
+ from registrations 
+ where event_id = 19 
+   and name != 'Simons'
+ order by random();
+						</code>
+					</pre>
+				</section>
 			</div>
 		</div>
 
