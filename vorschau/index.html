@@ -80,14 +80,14 @@
 
 			$( document ).ready(function() {
 				$.ajax({
-					url: 'http://www.euregjug.eu/api/events.json?sort=heldOn,asc',
+					url: 'http://www.euregjug.eu/api/events.json?sort=heldOn,desc',
 				})
 				.done(function(res) {
 					var now = moment();
 					var template = Handlebars.compile($("#event-template").html());
 					var eventsOpenForRegistration = $.grep(res.content, function(val, i) {
 						return val.openForRegistration && !moment(val.heldOn).isSame(now, 'day');
-					}).slice(0,3);
+					}).slice(0,3).sort(function(e1, e2) {return moment(e1.heldOn) >= moment(e2.heldOn);});
 					$("#event-list").append($.map(eventsOpenForRegistration, function(val) {
 						return template(val);
 					}));
